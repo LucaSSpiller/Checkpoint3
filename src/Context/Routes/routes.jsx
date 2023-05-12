@@ -1,4 +1,4 @@
-import {Home} from "../screens/home"
+import {Home} from "../../Screens/home"
 import {Icons} from "../src/components/Icon"
 
 export const ScreenArray = [

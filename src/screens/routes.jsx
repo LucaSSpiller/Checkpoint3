@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from "@react-navigation/native";
 import {createDrawerNavigator} from "@react-navigation/drawer"
-import {ScreenArray} from "../context/routes";
+import {ScreenArray} from "../Context/Routes/routes";
 
 const {Navigator, Screen} = createDrawerNavigator()
 
