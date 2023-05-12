@@ -1,5 +1,5 @@
 import { View } from "@react-native";
-import { getData , setData} from "../../Context/Data";
+import { getData , setData} from "../../Contexts/Data";
 import { useEffect } from "react";
 
 export const Logoff = ({navigation}) => {

@@ -1,8 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
-import { Style } from "../Context/Theme";
-import { getData } from "../Context/Data";
+import { Style } from "../Contexts/Theme";
+import { getData } from "../Contexts/Data";
 import { ButtonCustom } from "../Components/Button";
 
 
