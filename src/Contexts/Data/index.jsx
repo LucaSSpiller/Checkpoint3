@@ -9,7 +9,7 @@ export const setData = async (key, value) => {
     }
 }
 
-export const megaData = async (key, value) => {
+export const mergeData = async (key, value) => {
     try{
         const jsonValue = JSON.stringify(value)
         await AsyncStorage.mergeItem(key, jsonValue)

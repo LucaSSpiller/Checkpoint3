@@ -6,9 +6,8 @@ import { getData } from "../Contexts/Data";
 import { ButtonCustom } from "../Components/Button";
 
 
-export const Home = ({navigation}) => {
-  useEffect(
-    () => {
+export function Home ({navigation}) {
+  useEffect(() => {
       function handleStatusChange(data){
         if (!data){
           navigation.navigate('Cadastro')
@@ -23,8 +22,8 @@ export const Home = ({navigation}) => {
       getData(handleStatusChange, 'user')
     }
   )
-  const onPress = () => {
-    Navigation.navigate('Logoff')
+  function onPress ()  {
+    navigation.navigate('Logoff')
   }
 
 return (

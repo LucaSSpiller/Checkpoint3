@@ -4,28 +4,21 @@ import { Style } from '../../Contexts/Theme';
 import { TextCustom } from '../../Components/TextInput';
 import { ButtonCustom } from '../../Components/Button';
 import { setData } from '../../Contexts/Data';
-import  { useState, useEffect } from 'react';
+import  { useState } from 'react';
 
-export function Login ({navigation})  {
+export function Register ({navigation})  {
     const [error, setError] = useState('')
-    const [form, setForm]  = useState('')
-    var data = {}
+    const [form, setForm]  = useState({})
 
-    useEffect(() => {
-        const findData = (value) => {
-            data = value
-            console.log(data)
-        }
-        getData(findData, "user")
-    })
-
-    function Validate  ()  {
+    function Validate () {
         //Validar registros no banco de dados com os dados q eu criei  (1 ponto)
-        return (form.user && form.pass) ? true : false
+        // da pra criar um novo arquivo e chamar as validações pra dentro daqui importando elas, ou validando por aqui 
+        return (form.user && form.pass && form.email && form.phone) ? true : false
     }
     function next ()  {
-        data.login = true
-        setData("user", data)
+        var clone = object.assign({}, form)
+        clone.login = true
+        setData(clone, 'user')
         navigation.navigate("Routes")
     }
     function onPress ()  {
@@ -33,7 +26,7 @@ export function Login ({navigation})  {
             next(form) :
             setError("Cadastro inválido")
     }
-    function CallBack (key, data)  {
+    function CallBack (key, data) {
         var clone = Object.assign({}, form);
         clone[key] = data
         setForm(clone)
@@ -46,12 +39,22 @@ export function Login ({navigation})  {
                 name="user"
                 CallBack={CallBack}
                 value={form.name}
-                placeholder="User"/>
+                placeholder="Nome"/>
             <TextCustom
                 name="pass"
                 CallBack={CallBack}
                 value={form.pass}
-                placeholder="Password"/>
+                placeholder="Senha"/>
+            <TextCustom
+                name="email"
+                CallBack={CallBack}
+                value={form.email}
+                placeholder="E-mail"/>
+            <TextCustom
+                name="phone"
+                CallBack={CallBack}
+                value={form.phone}
+                placeholder="Celular"/>
             <Text style={Style.error}>{error}</Text>
             <ButtonCustom
                 onPress={onPress}
@@ -59,5 +62,6 @@ export function Login ({navigation})  {
             />
             <StatusBar style="auto"/>
         </View>
+
     );
 } 

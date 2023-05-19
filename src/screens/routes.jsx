@@ -1,21 +1,23 @@
 import React from 'react';
-import {NavigationContainer} from "@react-navigation/native";
 import {createDrawerNavigator} from "@react-navigation/drawer"
 import {ScreenArray} from "../Contexts/Routes/routes";
 
 const {Navigator, Screen} = createDrawerNavigator()
 
-export const Router = () =>{
+export function Routes () {
     return(
-        <NavigationContainer>
             <Navigator>
-                {ScreenArray.map((item,i) => (
-                 <Screen key={i} name={item.route} component={item.component}
-                    options={{item: item,}}
-                 />
-                ))}
-               
+                {
+                ScreenArray.map((item,index) => (
+                    <Screen 
+                        key={index} 
+                        name={item.route} 
+                        component={item.component}
+                        options={{item: item,}}
+                    />
+                ))
+            }
             </Navigator>
-        </NavigationContainer>
+
     )
 }
