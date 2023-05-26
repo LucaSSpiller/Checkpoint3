@@ -1,67 +1,90 @@
-import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
-import { Style } from '../../Contexts/Theme';
-import { TextCustom } from '../../Components/TextInput';
-import { ButtonCustom } from '../../Components/Button';
-import { setData } from '../../Contexts/Data';
-import  { useState } from 'react';
+import { Text, View } from "react-native";
+import { Style } from "../../Contexts/Theme";
+import { TextCustom } from '../../Components/TextInput'
+import { ButtonCustom } from "../../Components/Button";
+import { setData } from "../../Contexts/Data";
+import { useState } from "react";
+import { hasName, hasPass, hasEmail, hasPhone } from "../../Contexts/validForm";
+import { maskPhone } from "../../Contexts/mask";
 
-export function Register ({navigation})  {
-    const [error, setError] = useState('')
-    const [form, setForm]  = useState({})
+export const Register = ({ navigation }) => {
+  const [error, setError] = useState('');
+  const [form, setForm] = useState('');
 
-    function Validate () {
-        //Validar registros no banco de dados com os dados q eu criei  (1 ponto)
-        // da pra criar um novo arquivo e chamar as validações pra dentro daqui importando elas, ou validando por aqui 
-        return (form.user && form.pass && form.email && form.phone) ? true : false
-    }
-    function next ()  {
-        var clone = object.assign({}, form)
-        clone.login = true
-        setData(clone, 'user')
-        navigation.navigate("Routes")
-    }
-    function onPress ()  {
-        (Validate()) ?
-            next(form) :
-            setError("Cadastro inválido")
-    }
-    function CallBack (key, data) {
-        var clone = Object.assign({}, form);
-        clone[key] = data
-        setForm(clone)
+  const CallBack = (key, value) => {
+    var clone = Object.assign({}, form);
+    clone[key] = value;
+    setForm(clone);
+  };
+
+  const ValidateForm = () => {
+    const { name, pass, email, phone } = form;
+    
+    if (!name || name.trim() === '' || hasName(name)) {
+        setError('Preencha seu nome completo!');
+        return false;
     }
 
-    return(
-        <View style={Style.container}>
-            <Text style={Style.title}>Login</Text>
-            <TextCustom
-                name="user"
-                CallBack={CallBack}
-                value={form.name}
-                placeholder="Nome"/>
-            <TextCustom
-                name="pass"
-                CallBack={CallBack}
-                value={form.pass}
-                placeholder="Senha"/>
-            <TextCustom
-                name="email"
-                CallBack={CallBack}
-                value={form.email}
-                placeholder="E-mail"/>
-            <TextCustom
-                name="phone"
-                CallBack={CallBack}
-                value={form.phone}
-                placeholder="Celular"/>
-            <Text style={Style.error}>{error}</Text>
-            <ButtonCustom
-                onPress={onPress}
-                placeholder="Cadastrar"
-            />
-            <StatusBar style="auto"/>
-        </View>
+    if (!pass || hasPass(pass)) {
+        setError('A senha deve ter entre 6 e 8 dígitos');
+        return false;
+    }
 
-    );
-} 
+    if (!email || hasEmail(email)) {
+      setError('Digite um e-mail válido!');
+      return false;
+    }
+
+    if (!phone || hasPhone(phone)) {
+      setError('Digite um telefone válido! Ex: (xx)99999-9999');
+      return false;
+    }
+
+    return true;
+  };
+
+  const Next = () => {
+    var clone = Object.assign({}, form);
+    clone.login = true;
+    setData('user', clone);
+    navigation.navigate('Home');
+  };
+
+  const onPress = () => {
+    if (ValidateForm()) {
+      Next();
+    }
+  };
+
+  return (
+    <View style={Style.container}>
+      <Text style={Style.title}>Cadastre-se</Text>
+      <TextCustom
+        name='name'
+        value={form.name}
+        placeholder='Nome Completo'
+        CallBack={CallBack}
+      />
+      <TextCustom
+        name='pass'
+        value={form.pass}
+        placeholder='Senha'
+        CallBack={CallBack}
+      />
+      <TextCustom
+        name='email'
+        value={form.email}
+        placeholder='E-mail'
+        CallBack={CallBack}
+      />
+      <TextCustom
+        name='phone'
+        value={form.phone}
+        placeholder='Celular'
+        CallBack={CallBack}
+      />
+      <Text style={Style.error}>{error}</Text>
+      <ButtonCustom onPress={onPress} placeholder='Cadastrar' />
+    </View>
+  );
+};

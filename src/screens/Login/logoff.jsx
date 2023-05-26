@@ -1,18 +1,23 @@
-import { View } from "@react-native";
-import { getData , setData} from "../../Contexts/Data";
-import { useEffect } from "react";
+import { useEffect } from "react"
+import { Text, View } from "react-native"
+import { setData, getData } from '../../Contexts/Data'
+import { Style } from "../../Contexts/Theme"
 
-export const Logoff = ({navigation}) => {
+export const Logoff = ({ navigation }) => {
+
+    const CallBack = (user) => {
+        user.login = false
+        setData('user', user)
+        navigation.navigate('Login')
+    }
+    const Next = () => {
+        getData(CallBack, 'user')
+    }
     useEffect(() => {
-        const findData = (value) => {
-            value.login = false
-            setData('user', value)
-            navigation.navigate('Login')
-        }
-        getData(findData, 'user')
+        setTimeout(Next, 4000);
     })
 
-    return(
-        <View></View>
-    );
+    return (<View style={Style.container}>
+        <Text style={Style.title}>Até Breve</Text>
+    </View>)
 }

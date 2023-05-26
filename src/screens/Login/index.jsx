@@ -1,63 +1,79 @@
-import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
-import { Style } from '../../Contexts/Theme';
-import { TextCustom } from '../../Components/TextInput';
-import { ButtonCustom } from '../../Components/Button';
-import { setData } from '../../Contexts/Data';
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from "react"
+import { Text, View, StatusBar } from "react-native"
+import { setData, getData } from '../../Contexts/Data'
+import { TextCustom } from '../../Components/TextInput'
+import { Style } from "../../Contexts/Theme"
+import { ButtonCustom } from "../../Components/Button"
+import { hasName, hasPass } from "../../Contexts/validForm"
 
-export function Login ({navigation})  {
+export const Login = ({ navigation }) => {
     const [error, setError] = useState('')
-    const [form, setForm]  = useState('')
-    var data = {}
-
+    const [form, setForm] = useState('')
+    
+    var user = {}
     useEffect(() => {
-        const findData = (value) => {
-            data = value
-            console.log(data)
+        const FindUser = (value) => {
+            user = value
         }
-        getData(findData, "user")
+        getData(FindUser, 'user')
     })
 
-    function Validate  ()  {
-        //Validar registros no banco de dados com os dados q eu criei  (1 ponto)
-        return (form.user && form.pass) ? true : false
+    const Validated = () => {
+        const { user, pass } = form
+       if (!user || user.trim() === '' || hasName) {
+            setError('Preencha o campo usuário!')
+            return false
+        }
+
+        if (!pass || hasPass) {
+            setError('A senha deve ter entre 6 e 8 dígitos!')
+            return false
+        }
+
+        return true
     }
-    function next ()  {
-        data.login = true
-        setData("user", data)
-        navigation.navigate("Routes")
+ 
+
+    const Next = () => {
+        user.login = true
+        setData(user, 'user')
+        navigation.navigate('Home') //Link
     }
-    function onPress ()  {
-        (Validate()) ?
-            next(form) :
-            setError("Cadastro inválido")
-    }
-    function CallBack (key, data)  {
-        var clone = Object.assign({}, form);
-        clone[key] = data
+
+
+    const CallBack = (key, value) => {
+        var clone = Object.assign({}, form)
+        clone[key] = value
         setForm(clone)
     }
 
-    return(
+    const onPress = () => {
+        (Validated())
+            ? Next()
+            : setError('Preencha o formulário corretamente!')
+    }
+
+    return (
         <View style={Style.container}>
             <Text style={Style.title}>Login</Text>
             <TextCustom
-                name="user"
+                name='user'
                 CallBack={CallBack}
-                value={form.name}
-                placeholder="User"/>
+                value={form.user}
+                placeholder='E-mail'
+            />
             <TextCustom
-                name="pass"
+                name='pass'
                 CallBack={CallBack}
                 value={form.pass}
-                placeholder="Password"/>
+                placeholder='Senha'
+            />
             <Text style={Style.error}>{error}</Text>
             <ButtonCustom
                 onPress={onPress}
-                placeholder="Cadastrar"
+                placeholder='Logar'
             />
-            <StatusBar style="auto"/>
+            <StatusBar style="auto" />
         </View>
     );
-} 
+}
