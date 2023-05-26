@@ -7,7 +7,8 @@ export const TextCustom = (props) => {
         props.CallBack(props.name, e)
     }
 
-    return (<View style={Style.row}>
+    return (
+    <View style={Style.row}>
         <TextInput
             onChangeText={onChangeText}
             value={props.value}

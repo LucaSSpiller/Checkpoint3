@@ -37,7 +37,7 @@ export const Login = ({ navigation }) => {
     const Next = () => {
         user.login = true
         setData(user, 'user')
-        navigation.navigate('Home') //Link
+        navigation.navigate('Home')
     }
 
 

@@ -5,7 +5,6 @@ import { ButtonCustom } from "../../Components/Button";
 import { setData } from "../../Contexts/Data";
 import { useState } from "react";
 import { hasName, hasPass, hasEmail, hasPhone } from "../../Contexts/validForm";
-import { maskPhone } from "../../Contexts/mask";
 
 export const Register = ({ navigation }) => {
   const [error, setError] = useState('');

@@ -56,5 +56,6 @@ export const ProductDetails = (props) => {
         </View>
         <View style={Style.row}><Text style={Style.text}>{props.descritionAll}</Text></View>
 
-    </View>)
+    </View>
+    )
 }
